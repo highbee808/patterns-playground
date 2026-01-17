@@ -33,34 +33,34 @@ export function MiniTestimonialCard({
   role,
 }: MiniTestimonialCardProps) {
   return (
-    <div className="testimonial-card flex-shrink-0 w-[280px] sm:w-[300px] p-5 rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] shadow-[var(--shadow-sm)]">
+    <div className="testimonial-card flex-shrink-0 w-[260px] sm:w-[280px] md:w-[300px] p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-[var(--bg-card)] border border-[var(--border)] shadow-[var(--shadow-sm)]">
       {/* Star Rating */}
-      <div className="flex gap-1 mb-3">
+      <div className="flex gap-0.5 sm:gap-1 mb-2 sm:mb-3">
         {[...Array(5)].map((_, i) => (
           <Star
             key={i}
-            className="w-3.5 h-3.5"
+            className="w-3 h-3 sm:w-3.5 sm:h-3.5"
             style={{ fill: 'var(--accent-cyan)', color: 'var(--accent-cyan)' }}
           />
         ))}
       </div>
 
       {/* Quote */}
-      <p className="text-sm text-[var(--text-secondary)] leading-relaxed mb-4 line-clamp-3">
+      <p className="text-xs sm:text-sm text-[var(--text-secondary)] leading-relaxed mb-3 sm:mb-4 line-clamp-3">
         &ldquo;{quote}&rdquo;
       </p>
 
       {/* Author */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 sm:gap-3">
         <div
-          className="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-xs"
+          className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-white font-semibold text-[10px] sm:text-xs flex-shrink-0"
           style={{ background: 'linear-gradient(to bottom right, var(--accent-cyan), var(--accent-purple))' }}
         >
           {author.split(' ').slice(0, 2).map(n => n[0]).join('')}
         </div>
-        <div>
-          <p className="font-semibold text-[var(--text-primary)] text-sm">{author}</p>
-          <p className="text-xs text-[var(--text-muted)]">{role}</p>
+        <div className="min-w-0">
+          <p className="font-semibold text-[var(--text-primary)] text-xs sm:text-sm truncate">{author}</p>
+          <p className="text-[10px] sm:text-xs text-[var(--text-muted)] truncate">{role}</p>
         </div>
       </div>
     </div>
@@ -84,7 +84,7 @@ export function TestimonialMarquee({
       className={`testimonial-marquee-container overflow-hidden ${className}`}
     >
       <div
-        className={`testimonial-marquee flex gap-4 ${
+        className={`testimonial-marquee flex gap-3 sm:gap-4 gpu-accelerate ${
           direction === 'left' ? 'testimonial-marquee-left' : 'testimonial-marquee-right'
         }`}
       >

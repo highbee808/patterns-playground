@@ -247,3 +247,132 @@ body {
   background-size: 300% 100%;
   animation: gradient-rotate 3s ease infinite;
 }
+
+/* ============================================
+   MOBILE PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .testimonial-marquee,
+  .testimonial-marquee-left,
+  .testimonial-marquee-right {
+    animation: none !important;
+  }
+}
+
+/* GPU-accelerated animations */
+.gpu-accelerate {
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Optimized containment for heavy sections */
+.contain-paint {
+  contain: layout style paint;
+}
+
+/* Mobile touch optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Disable hover effects on touch devices */
+  .testimonial-marquee-container:hover .testimonial-marquee {
+    animation-play-state: running;
+  }
+
+  /* Ensure touch scrolling is smooth */
+  .overflow-x-scroll,
+  .overflow-y-scroll,
+  .overflow-scroll {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+}
+
+/* Prevent text orphans and widows */
+.balance-text {
+  text-wrap: balance;
+}
+
+/* Prevent word breaking on key elements */
+.no-break {
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+/* ============================================
+   MOBILE-SPECIFIC MARQUEE OPTIMIZATIONS
+   ============================================ */
+
+@media (max-width: 640px) {
+  /* Smaller mask edges for better mobile visibility */
+  .testimonial-marquee-container {
+    mask-image: linear-gradient(to right, transparent, white 3%, white 97%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, white 3%, white 97%, transparent);
+  }
+
+  /* Faster animations on mobile feel smoother due to smaller viewport */
+  .testimonial-marquee-left {
+    animation-duration: 8s;
+  }
+
+  .testimonial-marquee-right {
+    animation-duration: 10s;
+  }
+}
+
+/* ============================================
+   PILL MARQUEE - GPU Optimized
+   ============================================ */
+
+.pill-marquee-track {
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* ============================================
+   MOBILE TYPOGRAPHY HELPERS
+   ============================================ */
+
+/* Fluid typography for smooth scaling */
+.fluid-text-hero {
+  font-size: clamp(1.875rem, 5vw + 1rem, 6rem);
+  line-height: 1.05;
+}
+
+.fluid-text-section {
+  font-size: clamp(1.5rem, 4vw + 0.5rem, 3.75rem);
+  line-height: 1.1;
+}
+
+/* ============================================
+   TOUCH-FRIENDLY INTERACTIONS
+   ============================================ */
+
+/* Minimum touch target size */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Active state feedback for touch */
+@media (hover: none) {
+  button:active,
+  a:active,
+  [data-hover]:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
+  }
+}

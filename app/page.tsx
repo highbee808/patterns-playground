@@ -262,10 +262,10 @@ function Hero() {
 
   return (
     <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated gradient orbs */}
-      <div className="absolute inset-0 overflow-hidden">
+      {/* Animated gradient orbs - smaller on mobile for performance */}
+      <div className="absolute inset-0 overflow-hidden contain-paint">
         <motion.div
-          className="absolute top-[15%] left-[10%] w-[600px] h-[600px] bg-cyan-500/20 rounded-full blur-[120px]"
+          className="absolute top-[15%] left-[10%] w-[250px] sm:w-[400px] md:w-[600px] h-[250px] sm:h-[400px] md:h-[600px] bg-cyan-500/20 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] gpu-accelerate"
           animate={{
             x: [0, 50, 0],
             y: [0, -30, 0],
@@ -274,7 +274,7 @@ function Hero() {
           transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
         />
         <motion.div
-          className="absolute bottom-[15%] right-[10%] w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px]"
+          className="absolute bottom-[15%] right-[10%] w-[200px] sm:w-[350px] md:w-[500px] h-[200px] sm:h-[350px] md:h-[500px] bg-purple-600/20 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] gpu-accelerate"
           animate={{
             x: [0, -40, 0],
             y: [0, 40, 0],
@@ -283,7 +283,7 @@ function Hero() {
           transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
         />
         <motion.div
-          className="absolute top-[40%] left-[40%] w-[400px] h-[400px] bg-pink-500/10 rounded-full blur-[100px]"
+          className="absolute top-[40%] left-[40%] w-[150px] sm:w-[280px] md:w-[400px] h-[150px] sm:h-[280px] md:h-[400px] bg-pink-500/10 rounded-full blur-[60px] sm:blur-[80px] md:blur-[100px] gpu-accelerate"
           animate={{
             scale: [1, 1.2, 1],
           }}
@@ -351,7 +351,7 @@ function Hero() {
         </motion.div>
 
         {/* Headline */}
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 leading-[1.05]">
+        <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight mb-6 sm:mb-8 leading-[1.1] sm:leading-[1.05]">
           {words.map((word, i) => (
             <motion.span
               key={i}
@@ -362,7 +362,7 @@ function Hero() {
                 delay: 0.2 + i * 0.08,
                 ease: [0.25, 0.4, 0.25, 1]
               }}
-              className={`inline-block mr-[0.25em] ${
+              className={`inline-block mr-[0.2em] sm:mr-[0.25em] ${
                 word === 'Stunning'
                   ? 'bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent'
                   : 'text-[var(--text-primary)]'
@@ -378,7 +378,7 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
-          className="text-xl md:text-2xl text-[var(--text-secondary)] max-w-2xl mx-auto mb-14 leading-relaxed font-light"
+          className="text-base sm:text-lg md:text-xl lg:text-2xl text-[var(--text-secondary)] max-w-2xl mx-auto mb-8 sm:mb-10 md:mb-14 leading-relaxed font-light px-2"
         >
           Same premium animations. Full source code ownership.
           <span className="text-[var(--text-primary)]"> No platform lock-in.</span>
@@ -391,13 +391,13 @@ function Hero() {
           transition={{ duration: 0.7, delay: 1, ease: [0.25, 0.4, 0.25, 1] }}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <MagneticButton className="group px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-cyan-400 text-[var(--text-inverted)] font-semibold text-lg inline-flex items-center justify-center gap-3 shadow-xl shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-shadow">
-            Let's Work Together
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          <MagneticButton className="group px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-cyan-500 to-cyan-400 text-[var(--text-inverted)] font-semibold text-base sm:text-lg inline-flex items-center justify-center gap-2 sm:gap-3 shadow-xl shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-shadow touch-target">
+            <span className="whitespace-nowrap">Let's Work Together</span>
+            <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
           </MagneticButton>
-          <MagneticButton className="px-8 py-4 rounded-2xl border border-white/15 text-[var(--text-primary)] font-semibold text-lg hover:bg-[var(--bg-card)] hover:border-[var(--border-hover)] transition-all inline-flex items-center gap-3">
-            <Github className="w-5 h-5" />
-            See More Work
+          <MagneticButton className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl border border-white/15 text-[var(--text-primary)] font-semibold text-base sm:text-lg hover:bg-[var(--bg-card)] hover:border-[var(--border-hover)] transition-all inline-flex items-center gap-2 sm:gap-3 touch-target">
+            <Github className="w-4 h-4 sm:w-5 sm:h-5" />
+            <span className="whitespace-nowrap">See More Work</span>
           </MagneticButton>
         </motion.div>
 
@@ -500,10 +500,10 @@ function Stats() {
   ]
 
   return (
-    <section className="py-32">
+    <section className="py-16 sm:py-24 md:py-32">
       <div className="max-w-6xl mx-auto px-6">
         <AnimatedSection className="text-center mb-20">
-          <h2 className="text-4xl md:text-6xl font-bold text-[var(--text-primary)] mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-[var(--text-primary)] mb-6">
             Trusted by Developers
           </h2>
           <p className="text-xl text-[var(--text-muted)] max-w-lg mx-auto">
@@ -566,13 +566,13 @@ function Features() {
   ]
 
   return (
-    <section className="py-32 bg-[var(--bg-secondary)]/50">
+    <section className="py-16 sm:py-24 md:py-32 bg-[var(--bg-secondary)]/50">
       <div className="max-w-6xl mx-auto px-6">
         <AnimatedSection className="text-center mb-20">
           <span className="inline-block text-sm font-semibold text-[var(--accent-cyan)] uppercase tracking-wider mb-4">
             Why This Stack
           </span>
-          <h2 className="text-4xl md:text-6xl font-bold text-[var(--text-primary)]">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-[var(--text-primary)]">
             Built for Production
           </h2>
         </AnimatedSection>
@@ -583,15 +583,15 @@ function Features() {
               key={i}
               variants={staggerChild}
               whileHover={{ y: -8, transition: { duration: 0.3, ease: [0.25, 0.4, 0.25, 1] } }}
-              className="group p-8 rounded-3xl bg-[var(--bg-card)] border border-[var(--border)] hover:border-[var(--border-hover)] hover:bg-white/[0.04] transition-all duration-500"
+              className="group p-5 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl bg-[var(--bg-card)] border border-[var(--border)] hover:border-[var(--border-hover)] hover:bg-white/[0.04] transition-all duration-500"
             >
-              <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.gradient} p-[1px] mb-8`}>
-                <div className="w-full h-full rounded-2xl bg-[var(--bg-secondary)] flex items-center justify-center group-hover:bg-[var(--bg-card-hover)] transition-colors">
-                  <feature.icon className="w-7 h-7 text-[var(--text-primary)]" />
+              <div className={`w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br ${feature.gradient} p-[1px] mb-5 sm:mb-6 md:mb-8`}>
+                <div className="w-full h-full rounded-xl sm:rounded-2xl bg-[var(--bg-secondary)] flex items-center justify-center group-hover:bg-[var(--bg-card-hover)] transition-colors">
+                  <feature.icon className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 text-[var(--text-primary)]" />
                 </div>
               </div>
-              <h3 className="text-2xl font-semibold text-[var(--text-primary)] mb-4">{feature.title}</h3>
-              <p className="text-[var(--text-secondary)] leading-relaxed text-lg">{feature.description}</p>
+              <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-[var(--text-primary)] mb-2 sm:mb-3 md:mb-4">{feature.title}</h3>
+              <p className="text-[var(--text-secondary)] leading-relaxed text-sm sm:text-base md:text-lg">{feature.description}</p>
             </motion.div>
           ))}
         </StaggerContainer>
@@ -626,13 +626,13 @@ function PremiumCards() {
   ]
 
   return (
-    <section className="py-32 bg-[var(--bg-secondary)]/50">
+    <section className="py-16 sm:py-24 md:py-32 bg-[var(--bg-secondary)]/50">
       <div className="max-w-6xl mx-auto px-6">
         <AnimatedSection className="text-center mb-20">
           <span className="inline-block text-sm font-semibold text-[var(--accent-cyan)] uppercase tracking-wider mb-4">
             Premium Effects
           </span>
-          <h2 className="text-4xl md:text-6xl font-bold text-[var(--text-primary)] mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-[var(--text-primary)] mb-6">
             Cards With Motion
           </h2>
           <p className="text-xl text-[var(--text-muted)] max-w-2xl mx-auto">
@@ -648,10 +648,10 @@ function PremiumCards() {
                 spotlightColor={i === 0 ? 'rgba(34, 211, 238, 0.15)' : i === 1 ? 'rgba(168, 85, 247, 0.15)' : 'rgba(249, 115, 22, 0.15)'}
               >
                 <TiltCard className="h-full" tiltAmount={10} scale={1.0}>
-                  <div className="p-8 h-full flex flex-col">
+                  <div className="p-5 sm:p-6 md:p-8 h-full flex flex-col">
                     {/* Floating icon with parallax feel */}
                     <motion.div
-                      className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-3xl mb-6`}
+                      className={`w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-2xl sm:text-3xl mb-4 sm:mb-5 md:mb-6`}
                       whileHover={{
                         y: -5,
                         rotate: [0, -5, 5, 0],
@@ -661,11 +661,11 @@ function PremiumCards() {
                       {item.icon}
                     </motion.div>
 
-                    <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-3">
+                    <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[var(--text-primary)] mb-2 sm:mb-3">
                       {item.title}
                     </h3>
 
-                    <p className="text-[var(--text-secondary)] leading-relaxed flex-grow">
+                    <p className="text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed flex-grow">
                       {item.description}
                     </p>
 
@@ -719,13 +719,13 @@ function TestimonialsFullWidth() {
   ]
 
   return (
-    <section className="py-32 overflow-hidden">
+    <section className="py-16 sm:py-24 md:py-32 overflow-hidden">
       <div className="max-w-6xl mx-auto px-6 mb-16">
         <AnimatedSection className="text-center">
           <span className="inline-block text-sm font-semibold text-[var(--accent-cyan)] uppercase tracking-wider mb-4">
             Full-Width Marquee
           </span>
-          <h2 className="text-4xl md:text-6xl font-bold text-[var(--text-primary)] mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-[var(--text-primary)] mb-4">
             Edge-to-Edge Testimonials
           </h2>
           <p className="text-xl text-[var(--text-muted)] max-w-lg mx-auto">
@@ -760,13 +760,13 @@ function TestimonialsContained() {
   ]
 
   return (
-    <section className="py-32 overflow-hidden bg-[var(--bg-secondary)]/30">
+    <section className="py-16 sm:py-24 md:py-32 overflow-hidden bg-[var(--bg-secondary)]/30">
       <div className="max-w-7xl mx-auto px-6">
         <AnimatedSection className="text-center mb-16">
           <span className="inline-block text-sm font-semibold text-[var(--accent-cyan)] uppercase tracking-wider mb-4">
             Contained Marquee
           </span>
-          <h2 className="text-4xl md:text-6xl font-bold text-[var(--text-primary)] mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-[var(--text-primary)] mb-4">
             With Spotlight Container
           </h2>
           <p className="text-xl text-[var(--text-muted)] max-w-lg mx-auto">
@@ -776,7 +776,7 @@ function TestimonialsContained() {
 
         {/* Premium Container with Spotlight Effect */}
         <SpotlightCard
-          className="rounded-3xl bg-[var(--bg-card)] backdrop-blur-sm border border-[var(--border)] p-6 md:p-10"
+          className="rounded-2xl sm:rounded-3xl bg-[var(--bg-card)] backdrop-blur-sm border border-[var(--border)] p-4 sm:p-6 md:p-8 lg:p-10"
           spotlightColor="rgba(34, 211, 238, 0.08)"
         >
           <div className="space-y-5">
@@ -829,19 +829,19 @@ function PillMarquee({
       }}
     >
       <motion.div
-        className="flex gap-4 whitespace-nowrap"
+        className="flex gap-3 sm:gap-4 whitespace-nowrap pill-marquee-track"
         animate={{ x: direction === 'left' ? ['0%', '-33.33%'] : ['-33.33%', '0%'] }}
         transition={{ duration, repeat: Infinity, ease: 'linear' }}
       >
         {duplicated.map((item, idx) => (
           <span
             key={idx}
-            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium border transition-all hover:scale-105 ${
+            className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium border transition-all hover:scale-105 touch-target ${
               item.color || 'bg-[var(--bg-card)] border-[var(--border)] text-[var(--text-primary)] hover:bg-white/10'
             }`}
           >
-            <span className="w-2 h-2 rounded-full bg-current opacity-60" />
-            {item.text}
+            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-current opacity-60" />
+            <span className="whitespace-nowrap">{item.text}</span>
           </span>
         ))}
       </motion.div>
@@ -880,13 +880,13 @@ function PillMarqueeShowcase() {
   ]
 
   return (
-    <section className="py-32 overflow-hidden">
+    <section className="py-16 sm:py-24 md:py-32 overflow-hidden">
       <div className="max-w-6xl mx-auto px-6 mb-16">
         <AnimatedSection className="text-center">
           <span className="inline-block text-sm font-semibold text-[var(--accent-cyan)] uppercase tracking-wider mb-4">
             Pill Marquee
           </span>
-          <h2 className="text-4xl md:text-6xl font-bold text-[var(--text-primary)] mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-[var(--text-primary)] mb-4">
             Scrolling Badge Tags
           </h2>
           <p className="text-xl text-[var(--text-muted)] max-w-lg mx-auto">
@@ -941,13 +941,13 @@ function PillMarqueeContained() {
   ]
 
   return (
-    <section className="py-32 overflow-hidden bg-[var(--bg-secondary)]/30">
+    <section className="py-16 sm:py-24 md:py-32 overflow-hidden bg-[var(--bg-secondary)]/30">
       <div className="max-w-6xl mx-auto px-6">
         <AnimatedSection className="text-center mb-16">
           <span className="inline-block text-sm font-semibold text-[var(--accent-cyan)] uppercase tracking-wider mb-4">
             Contained Pill Marquee
           </span>
-          <h2 className="text-4xl md:text-6xl font-bold text-[var(--text-primary)] mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-[var(--text-primary)] mb-4">
             With Spotlight Container
           </h2>
           <p className="text-xl text-[var(--text-muted)] max-w-lg mx-auto">
@@ -956,7 +956,7 @@ function PillMarqueeContained() {
         </AnimatedSection>
 
         <SpotlightCard
-          className="rounded-3xl bg-[var(--bg-card)] backdrop-blur-sm border border-[var(--border)] p-8 md:p-12"
+          className="rounded-2xl sm:rounded-3xl bg-[var(--bg-card)] backdrop-blur-sm border border-[var(--border)] p-4 sm:p-6 md:p-8 lg:p-12"
           spotlightColor="rgba(168, 85, 247, 0.08)"
         >
           <div className="space-y-6">
@@ -1080,13 +1080,13 @@ function PricingShowcase() {
   ]
 
   return (
-    <section className="py-32 bg-[var(--bg-secondary)]/30">
+    <section className="py-16 sm:py-24 md:py-32 bg-[var(--bg-secondary)]/30">
       <div className="max-w-6xl mx-auto px-6">
         <AnimatedSection className="text-center mb-20">
           <span className="inline-block text-sm font-semibold text-[var(--accent-cyan)] uppercase tracking-wider mb-4">
             Pricing Cards
           </span>
-          <h2 className="text-4xl md:text-6xl font-bold text-[var(--text-primary)] mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-[var(--text-primary)] mb-6">
             SaaS Pricing Component
           </h2>
           <p className="text-xl text-[var(--text-muted)] max-w-lg mx-auto">
@@ -1100,7 +1100,7 @@ function PricingShowcase() {
               key={i}
               variants={staggerChild}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className={`relative p-8 rounded-3xl border transition-all duration-500 ${
+              className={`relative p-5 sm:p-6 md:p-8 rounded-2xl sm:rounded-3xl border transition-all duration-500 ${
                 plan.popular
                   ? 'bg-gradient-to-b from-cyan-500/10 to-purple-500/10 border-cyan-500/30'
                   : 'bg-[var(--bg-card)] border-[var(--border)] hover:border-[var(--border-hover)]'
@@ -1118,29 +1118,29 @@ function PricingShowcase() {
                 </motion.div>
               )}
 
-              <div className="mb-8">
-                <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-2">{plan.name}</h3>
-                <p className="text-[var(--text-muted)] text-sm">{plan.description}</p>
+              <div className="mb-5 sm:mb-6 md:mb-8">
+                <h3 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] mb-1 sm:mb-2">{plan.name}</h3>
+                <p className="text-[var(--text-muted)] text-xs sm:text-sm">{plan.description}</p>
               </div>
 
-              <div className="mb-8">
-                <span className="text-5xl font-bold text-[var(--text-primary)]">${plan.price}</span>
-                {plan.price > 0 && <span className="text-[var(--text-muted)] ml-2">one-time</span>}
+              <div className="mb-5 sm:mb-6 md:mb-8">
+                <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-[var(--text-primary)]">${plan.price}</span>
+                {plan.price > 0 && <span className="text-[var(--text-muted)] ml-2 text-sm">one-time</span>}
               </div>
 
-              <ul className="space-y-4 mb-10">
+              <ul className="space-y-3 sm:space-y-4 mb-6 sm:mb-8 md:mb-10">
                 {plan.features.map((feature, j) => (
-                  <li key={j} className="flex items-center gap-3 text-[var(--text-primary)]">
-                    <div className={`w-5 h-5 rounded-full flex items-center justify-center ${plan.popular ? 'bg-cyan-500/20' : 'bg-white/10'}`}>
-                      <Check className={`w-3 h-3 ${plan.popular ? 'text-[var(--accent-cyan)]' : 'text-[var(--text-primary)]'}`} />
+                  <li key={j} className="flex items-center gap-2 sm:gap-3 text-[var(--text-primary)] text-sm sm:text-base">
+                    <div className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center flex-shrink-0 ${plan.popular ? 'bg-cyan-500/20' : 'bg-white/10'}`}>
+                      <Check className={`w-2.5 h-2.5 sm:w-3 sm:h-3 ${plan.popular ? 'text-[var(--accent-cyan)]' : 'text-[var(--text-primary)]'}`} />
                     </div>
-                    {feature}
+                    <span className="whitespace-nowrap">{feature}</span>
                   </li>
                 ))}
               </ul>
 
               <MagneticButton
-                className={`w-full py-4 rounded-2xl font-semibold text-lg transition-all ${
+                className={`w-full py-3 sm:py-4 rounded-xl sm:rounded-2xl font-semibold text-sm sm:text-base md:text-lg transition-all touch-target ${
                   plan.popular
                     ? 'bg-gradient-to-r from-cyan-500 to-purple-500 text-[var(--text-primary)] shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40'
                     : 'bg-[var(--bg-card)] text-[var(--text-primary)] border border-[var(--border)] hover:bg-white/10'
@@ -1233,13 +1233,13 @@ function FAQShowcase() {
   ]
 
   return (
-    <section className="py-32">
+    <section className="py-16 sm:py-24 md:py-32">
       <div className="max-w-4xl mx-auto px-6">
         <AnimatedSection className="text-center mb-16">
           <span className="inline-block text-sm font-semibold text-[var(--accent-cyan)] uppercase tracking-wider mb-4">
             FAQ Component
           </span>
-          <h2 className="text-4xl md:text-6xl font-bold text-[var(--text-primary)] mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-[var(--text-primary)] mb-6">
             Animated Accordion
           </h2>
           <p className="text-xl text-[var(--text-muted)] max-w-lg mx-auto">
@@ -1291,7 +1291,7 @@ function HorizontalScrollShowcase() {
             <span className="inline-block text-sm font-semibold text-[var(--accent-cyan)] uppercase tracking-wider mb-4">
               Horizontal Scroll
             </span>
-            <h2 className="text-4xl md:text-6xl font-bold text-[var(--text-primary)] mb-4">
+            <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-[var(--text-primary)] mb-4">
               Pin & Scroll Section
             </h2>
             <p className="text-xl text-[var(--text-muted)] max-w-lg">
@@ -1307,19 +1307,19 @@ function HorizontalScrollShowcase() {
           {cards.map((card, i) => (
             <motion.div
               key={i}
-              className="flex-shrink-0 w-[350px]"
+              className="flex-shrink-0 w-[280px] sm:w-[320px] md:w-[350px]"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
             >
-              <SpotlightCard className="h-full rounded-3xl bg-[var(--bg-card)] border border-[var(--border)]">
-                <div className="p-8 h-full">
-                  <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${card.gradient} flex items-center justify-center text-3xl mb-6`}>
+              <SpotlightCard className="h-full rounded-2xl sm:rounded-3xl bg-[var(--bg-card)] border border-[var(--border)]">
+                <div className="p-5 sm:p-6 md:p-8 h-full">
+                  <div className={`w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl sm:rounded-2xl bg-gradient-to-br ${card.gradient} flex items-center justify-center text-2xl sm:text-3xl mb-4 sm:mb-5 md:mb-6`}>
                     {card.icon}
                   </div>
-                  <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-3">{card.title}</h3>
-                  <p className="text-[var(--text-secondary)] leading-relaxed">{card.desc}</p>
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-[var(--text-primary)] mb-2 sm:mb-3">{card.title}</h3>
+                  <p className="text-[var(--text-secondary)] leading-relaxed text-sm sm:text-base">{card.desc}</p>
                 </div>
               </SpotlightCard>
             </motion.div>
@@ -1356,13 +1356,13 @@ function FormShowcase() {
   }
 
   return (
-    <section className="py-32">
+    <section className="py-16 sm:py-24 md:py-32">
       <div className="max-w-5xl mx-auto px-6">
         <AnimatedSection className="text-center mb-16">
           <span className="inline-block text-sm font-semibold text-[var(--accent-cyan)] uppercase tracking-wider mb-4">
             Form Components
           </span>
-          <h2 className="text-4xl md:text-6xl font-bold text-[var(--text-primary)] mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-[var(--text-primary)] mb-6">
             Interactive Forms
           </h2>
           <p className="text-xl text-[var(--text-muted)] max-w-lg mx-auto">
@@ -1376,7 +1376,7 @@ function FormShowcase() {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="bg-[var(--bg-card)] border border-[var(--border)] rounded-3xl p-8"
+            className="bg-[var(--bg-card)] border border-[var(--border)] rounded-2xl sm:rounded-3xl p-5 sm:p-6 md:p-8"
           >
             {done ? (
               <motion.div
@@ -1498,7 +1498,7 @@ function ProcessShowcase() {
           <span className="inline-block text-sm font-semibold text-[var(--accent-cyan)] uppercase tracking-wider mb-4">
             Process Component
           </span>
-          <h2 className="text-4xl md:text-6xl font-bold text-[var(--text-primary)] mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-[var(--text-primary)] mb-6">
             Timeline with Progress
           </h2>
           <p className="text-xl text-[var(--text-muted)] max-w-lg mx-auto">
@@ -1555,13 +1555,13 @@ function ProcessShowcase() {
 // ============================================
 function CTA() {
   return (
-    <section className="py-32">
+    <section className="py-16 sm:py-24 md:py-32">
       <div className="max-w-4xl mx-auto px-6">
         <AnimatedSection>
-          <div className="relative text-center p-16 md:p-24 rounded-[2.5rem] overflow-hidden group">
+          <div className="relative text-center p-8 sm:p-12 md:p-16 lg:p-24 rounded-2xl sm:rounded-3xl md:rounded-[2.5rem] overflow-hidden group">
             {/* Animated gradient border - rotates on hover */}
-            <div className="absolute inset-0 rounded-[2.5rem] cta-gradient-border" />
-            <div className="absolute inset-[2px] rounded-[2.5rem] bg-[var(--bg-primary)]" />
+            <div className="absolute inset-0 rounded-2xl sm:rounded-3xl md:rounded-[2.5rem] cta-gradient-border" />
+            <div className="absolute inset-[2px] rounded-2xl sm:rounded-3xl md:rounded-[2.5rem] bg-[var(--bg-primary)]" />
 
             {/* Glow - intensifies on hover */}
             <motion.div
@@ -1571,7 +1571,7 @@ function CTA() {
 
             <div className="relative z-10">
               <motion.h2
-                className="text-4xl md:text-7xl font-bold text-[var(--text-primary)] mb-8"
+                className="text-2xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-[var(--text-primary)] mb-6 sm:mb-8"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
