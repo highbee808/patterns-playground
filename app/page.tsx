@@ -586,7 +586,7 @@ function Features() {
               className="group p-8 rounded-3xl bg-[var(--bg-card)] border border-[var(--border)] hover:border-[var(--border-hover)] hover:bg-white/[0.04] transition-all duration-500"
             >
               <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.gradient} p-[1px] mb-8`}>
-                <div className="w-full h-full rounded-2xl bg-[var(--bg-secondary)] flex items-center justify-center group-hover:bg-[#0d1320] transition-colors">
+                <div className="w-full h-full rounded-2xl bg-[var(--bg-secondary)] flex items-center justify-center group-hover:bg-[var(--bg-card-hover)] transition-colors">
                   <feature.icon className="w-7 h-7 text-[var(--text-primary)]" />
                 </div>
               </div>
@@ -1594,7 +1594,7 @@ function CTA() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <MagneticButton className="px-12 py-6 rounded-2xl bg-white text-[var(--text-inverted)] font-bold text-xl shadow-2xl shadow-white/10 hover:shadow-white/20 transition-shadow inline-flex items-center gap-3">
+                <MagneticButton className="px-12 py-6 rounded-2xl bg-[var(--text-primary)] text-[var(--bg-primary)] font-bold text-xl shadow-2xl shadow-black/10 dark:shadow-white/10 hover:shadow-black/20 dark:hover:shadow-white/20 transition-shadow inline-flex items-center gap-3">
                   Get In Touch
                   <ExternalLink className="w-5 h-5" />
                 </MagneticButton>
