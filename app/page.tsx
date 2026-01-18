@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState } from 'react'
 import { motion, useScroll, useTransform, useSpring, useInView, MotionValue } from 'motion/react'
-import { Sparkles, Zap, ArrowRight, Code2, Palette, MousePointer2, Github, ExternalLink, Check, Crown, ChevronDown, Star, Calendar, MessageSquare, FileText, User, Mail, Phone, Shield } from 'lucide-react'
+import { Layers, Zap, ArrowRight, Code2, Palette, MousePointer2, Github, ExternalLink, Check, Crown, ChevronDown, Star, Calendar, MessageSquare, FileText, User, Mail, Phone, Shield, Rocket, Sun, Target, Box } from 'lucide-react'
 import Link from 'next/link'
 import { SmoothScrollProvider } from '@/components/smooth-scroll'
 import { AnimatedCards } from '@/components/animated-cards'
@@ -385,7 +385,7 @@ function Hero() {
           transition={{ duration: 0.6, ease: [0.25, 0.4, 0.25, 1] }}
           className="inline-flex items-center gap-2 mb-10 px-5 py-2.5 rounded-full border border-[var(--border)] bg-[var(--bg-card)] backdrop-blur-md"
         >
-          <Sparkles className="w-4 h-4 text-[var(--accent-cyan)]" />
+          <Layers className="w-4 h-4 text-[var(--accent-cyan)]" />
           <span className="text-sm text-[var(--text-primary)] font-medium">Framer-Quality Animations</span>
           <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
         </motion.div>
@@ -659,7 +659,7 @@ function PremiumCards() {
     {
       title: 'Spotlight Effect',
       description: 'Light follows your cursor creating depth and focus. Perfect for feature highlights.',
-      icon: '✨',
+      icon: '💡',
       gradient: 'from-cyan-500/20 to-blue-500/20',
     },
     {
@@ -1331,7 +1331,7 @@ function HorizontalScrollShowcase() {
   const x = useTransform(scrollYProgress, [0, 1], ['0%', isMobile ? '-220%' : '-75%'])
 
   const cards = [
-    { icon: '✨', title: 'Spotlight Cards', desc: 'Light follows your cursor creating depth and focus', gradient: 'from-cyan-500/20 to-blue-500/20' },
+    { icon: '💡', title: 'Spotlight Cards', desc: 'Light follows your cursor creating depth and focus', gradient: 'from-cyan-500/20 to-blue-500/20' },
     { icon: '🎯', title: '3D Tilt Effects', desc: 'Perspective transforms with smooth spring physics', gradient: 'from-purple-500/20 to-pink-500/20' },
     { icon: '🔮', title: 'Parallax Layers', desc: 'Multiple depth layers moving at different speeds', gradient: 'from-orange-500/20 to-red-500/20' },
     { icon: '⚡', title: 'Scroll Triggers', desc: 'Elements animate as they enter the viewport', gradient: 'from-green-500/20 to-emerald-500/20' },
@@ -1546,7 +1546,7 @@ function ProcessShowcase() {
     { icon: Calendar, title: 'Discovery Call', desc: 'We discuss your vision, requirements, and timeline.' },
     { icon: FileText, title: 'Proposal & Design', desc: 'I create a detailed proposal with mockups and pricing.' },
     { icon: Code2, title: 'Development', desc: 'Building your site with clean, maintainable code.' },
-    { icon: Sparkles, title: 'Launch & Support', desc: 'Deploy to production with ongoing support.' },
+    { icon: Rocket, title: 'Launch & Support', desc: 'Deploy to production with ongoing support.' },
   ]
 
   return (

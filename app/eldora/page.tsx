@@ -2,7 +2,7 @@
 
 import { motion } from 'motion/react'
 import Link from 'next/link'
-import { ArrowLeft, Sparkles } from 'lucide-react'
+import { ArrowLeft, Layers } from 'lucide-react'
 
 // Eldora UI Components
 import { CobeGlobe } from '@/components/eldoraui/cobe-globe'
@@ -94,7 +94,7 @@ export default function EldoraPage() {
               className="mb-6"
             >
               <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--accent-cyan-light)] border border-[var(--accent-cyan)]/30 text-[var(--accent-cyan)] text-sm font-medium">
-                <Sparkles className="w-4 h-4" />
+                <Layers className="w-4 h-4" />
                 Eldora UI Components
               </span>
             </motion.div>
