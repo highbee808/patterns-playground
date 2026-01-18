@@ -17,26 +17,39 @@ function useParallax(value: MotionValue<number>, distance: number) {
 }
 
 // ============================================
-// CUSTOM CURSOR - Premium feel
+// CUSTOM CURSOR - Premium feel (RAF throttled)
 // ============================================
 function CustomCursor() {
   const [pos, setPos] = useState({ x: 0, y: 0 })
   const [hovering, setHovering] = useState(false)
   const [visible, setVisible] = useState(false)
 
+  // Refs for RAF throttling
+  const rafRef = useRef<number | null>(null)
+  const posRef = useRef({ x: 0, y: 0 })
+
   useEffect(() => {
     // Hide on touch devices
     if (window.matchMedia('(hover: none)').matches) return
 
     const move = (e: MouseEvent) => {
-      setPos({ x: e.clientX, y: e.clientY })
-      setVisible(true)
+      // Store position in ref (no re-render)
+      posRef.current = { x: e.clientX, y: e.clientY }
+
+      // Only update state once per animation frame (throttle to ~60fps max)
+      if (!rafRef.current) {
+        rafRef.current = requestAnimationFrame(() => {
+          setPos(posRef.current)
+          setVisible(true)
+          rafRef.current = null
+        })
+      }
     }
 
     const leave = () => setVisible(false)
     const enter = () => setVisible(true)
 
-    window.addEventListener('mousemove', move)
+    window.addEventListener('mousemove', move, { passive: true })
     document.addEventListener('mouseleave', leave)
     document.addEventListener('mouseenter', enter)
 
@@ -59,6 +72,10 @@ function CustomCursor() {
       document.removeEventListener('mouseleave', leave)
       document.removeEventListener('mouseenter', enter)
       observer.disconnect()
+      // Cancel any pending RAF
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+      }
     }
   }, [])
 
@@ -163,6 +180,29 @@ const staggerChild = {
 }
 
 // ============================================
+// VISIBILITY HOOK - For pausing off-screen animations
+// ============================================
+function useIsVisible(rootMargin = '100px') {
+  const ref = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(true)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { rootMargin }
+    )
+
+    if (ref.current) {
+      observer.observe(ref.current)
+    }
+
+    return () => observer.disconnect()
+  }, [rootMargin])
+
+  return { ref, isVisible }
+}
+
+// ============================================
 // COUNT UP HOOK
 // ============================================
 function useCountUp(end: number, duration: number = 2000) {
@@ -262,32 +302,16 @@ function Hero() {
 
   return (
     <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated gradient orbs - smaller on mobile for performance */}
+      {/* Animated gradient orbs - Pure CSS animations (no Framer Motion) */}
       <div className="absolute inset-0 overflow-hidden contain-paint">
-        <motion.div
-          className="absolute top-[15%] left-[10%] w-[250px] sm:w-[400px] md:w-[600px] h-[250px] sm:h-[400px] md:h-[600px] bg-cyan-500/20 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] gpu-accelerate"
-          animate={{
-            x: [0, 50, 0],
-            y: [0, -30, 0],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
+        <div
+          className="hero-orb hero-orb-1 absolute top-[15%] left-[10%] w-[250px] sm:w-[400px] md:w-[600px] h-[250px] sm:h-[400px] md:h-[600px] bg-cyan-500/20 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px]"
         />
-        <motion.div
-          className="absolute bottom-[15%] right-[10%] w-[200px] sm:w-[350px] md:w-[500px] h-[200px] sm:h-[350px] md:h-[500px] bg-purple-600/20 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] gpu-accelerate"
-          animate={{
-            x: [0, -40, 0],
-            y: [0, 40, 0],
-            scale: [1, 0.9, 1],
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+        <div
+          className="hero-orb hero-orb-2 absolute bottom-[15%] right-[10%] w-[200px] sm:w-[350px] md:w-[500px] h-[200px] sm:h-[350px] md:h-[500px] bg-purple-600/20 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px]"
         />
-        <motion.div
-          className="absolute top-[40%] left-[40%] w-[150px] sm:w-[280px] md:w-[400px] h-[150px] sm:h-[280px] md:h-[400px] bg-pink-500/10 rounded-full blur-[60px] sm:blur-[80px] md:blur-[100px] gpu-accelerate"
-          animate={{
-            scale: [1, 1.2, 1],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+        <div
+          className="hero-orb hero-orb-3 absolute top-[40%] left-[40%] w-[150px] sm:w-[280px] md:w-[400px] h-[150px] sm:h-[280px] md:h-[400px] bg-pink-500/10 rounded-full blur-[60px] sm:blur-[80px] md:blur-[100px]"
         />
       </div>
 
@@ -453,9 +477,10 @@ function Hero() {
 // ============================================
 function LogoMarquee() {
   const logos = ['Stripe', 'Vercel', 'Linear', 'Notion', 'Figma', 'Slack', 'Discord', 'GitHub']
+  const { ref, isVisible } = useIsVisible()
 
   return (
-    <section className="py-20 border-y border-[var(--border)] overflow-hidden">
+    <section ref={ref} className="py-20 border-y border-[var(--border)] overflow-hidden">
       <AnimatedSection>
         <p className="text-center text-xs text-[var(--text-muted)] uppercase tracking-[0.25em] mb-12 font-medium">
           Built for modern teams
@@ -470,9 +495,10 @@ function LogoMarquee() {
         }}
       >
         <motion.div
-          animate={{ x: ['0%', '-50%'] }}
+          animate={isVisible ? { x: ['0%', '-50%'] } : undefined}
           transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
           className="flex gap-16 whitespace-nowrap logo-marquee-track"
+          style={{ animationPlayState: isVisible ? 'running' : 'paused' }}
         >
           {[...logos, ...logos].map((logo, i) => (
             <span
@@ -817,11 +843,13 @@ function PillMarquee({
   direction?: 'left' | 'right'
   speed?: 'slow' | 'normal' | 'fast'
 }) {
+  const { ref, isVisible } = useIsVisible()
   const duplicated = [...items, ...items, ...items]
   const duration = speed === 'slow' ? 20 : speed === 'fast' ? 8 : 12
 
   return (
     <div
+      ref={ref}
       className="overflow-hidden"
       style={{
         maskImage: 'linear-gradient(to right, transparent, white 10%, white 90%, transparent)',
@@ -830,8 +858,9 @@ function PillMarquee({
     >
       <motion.div
         className="flex gap-4 whitespace-nowrap pill-marquee-track"
-        animate={{ x: direction === 'left' ? ['0%', '-33.33%'] : ['-33.33%', '0%'] }}
+        animate={isVisible ? { x: direction === 'left' ? ['0%', '-33.33%'] : ['-33.33%', '0%'] } : undefined}
         transition={{ duration, repeat: Infinity, ease: 'linear' }}
+        style={{ animationPlayState: isVisible ? 'running' : 'paused' }}
       >
         {duplicated.map((item, idx) => (
           <span
@@ -995,6 +1024,7 @@ function PillMarqueeContained() {
 // SINGLE ROW LOGO MARQUEE - Alternative style
 // ============================================
 function LogoMarqueeAlt() {
+  const { ref, isVisible } = useIsVisible()
   const logos = [
     { name: 'Vercel', icon: '▲' },
     { name: 'Stripe', icon: '◈' },
@@ -1009,7 +1039,7 @@ function LogoMarqueeAlt() {
   const duplicated = [...logos, ...logos, ...logos]
 
   return (
-    <section className="py-24 border-y border-[var(--border)] overflow-hidden bg-[var(--bg-secondary)]/30">
+    <section ref={ref} className="py-24 border-y border-[var(--border)] overflow-hidden bg-[var(--bg-secondary)]/30">
       <div className="max-w-6xl mx-auto px-6 mb-12">
         <AnimatedSection className="text-center">
           <span className="inline-block text-sm font-semibold text-[var(--accent-cyan)] uppercase tracking-wider mb-4">
@@ -1030,8 +1060,9 @@ function LogoMarqueeAlt() {
       >
         <motion.div
           className="flex gap-12 whitespace-nowrap logo-marquee-track"
-          animate={{ x: ['0%', '-33.33%'] }}
+          animate={isVisible ? { x: ['0%', '-33.33%'] } : undefined}
           transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+          style={{ animationPlayState: isVisible ? 'running' : 'paused' }}
         >
           {duplicated.map((logo, i) => (
             <div

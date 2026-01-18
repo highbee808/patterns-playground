@@ -1,5 +1,6 @@
 'use client'
 
+import { useRef, useEffect, useState } from 'react'
 import { Star } from 'lucide-react'
 
 // ============================================
@@ -70,23 +71,43 @@ export function MiniTestimonialCard({
 // ============================================
 // TESTIMONIAL MARQUEE
 // Pure CSS infinite scroll - maximum GPU optimization
+// Pauses when off-screen for performance
 // ============================================
 export function TestimonialMarquee({
   items,
   direction = 'left',
   className = '',
 }: TestimonialMarqueeProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(true)
+
+  // IntersectionObserver to pause when off-screen
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsVisible(entry.isIntersecting),
+      { rootMargin: '100px' } // Start animating slightly before visible
+    )
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current)
+    }
+
+    return () => observer.disconnect()
+  }, [])
+
   // Duplicate items for seamless loop
   const duplicated = [...items, ...items]
 
   return (
     <div
+      ref={containerRef}
       className={`testimonial-marquee-container overflow-hidden ${className}`}
     >
       <div
         className={`testimonial-marquee flex gap-4 ${
           direction === 'left' ? 'testimonial-marquee-left' : 'testimonial-marquee-right'
         }`}
+        style={{ animationPlayState: isVisible ? 'running' : 'paused' }}
       >
         {duplicated.map((item, idx) => (
           <MiniTestimonialCard

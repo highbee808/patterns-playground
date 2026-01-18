@@ -7,13 +7,19 @@ export function SmoothScrollProvider({ children }: { children: React.ReactNode }
   const lenisRef = useRef<Lenis | null>(null)
 
   useEffect(() => {
+    // Check if we're on a touch device - use native scroll on mobile
+    const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
+      duration: 1.5, // Slower = smoother
+      easing: (t) => 1 - Math.pow(1 - t, 3), // Simpler cubic ease (less CPU)
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      touchMultiplier: 2,
+      touchMultiplier: 1.5, // Less aggressive than 2
+      syncTouch: false, // Disable touch sync - let native handle it
+      syncTouchLerp: 0.1, // Slower interpolation if syncTouch is ever enabled
+      wheelMultiplier: isTouchDevice ? 0 : 1, // Disable on touch devices
     })
 
     lenisRef.current = lenis

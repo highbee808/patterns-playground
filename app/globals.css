@@ -135,21 +135,29 @@ body {
 /* Container isolation for performance */
 .testimonial-marquee-container {
   contain: layout style paint;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 200px;
   mask-image: linear-gradient(to right, transparent, white 5%, white 95%, transparent);
   -webkit-mask-image: linear-gradient(to right, transparent, white 5%, white 95%, transparent);
 }
 
-/* GPU-accelerated marquee track */
+/* GPU-accelerated marquee track - will-change applied dynamically via JS */
 .testimonial-marquee,
 .pill-marquee-track,
 .logo-marquee-track {
-  will-change: transform;
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   -webkit-perspective: 1000;
   perspective: 1000;
+}
+
+/* Apply will-change only when element is visible and animating */
+.testimonial-marquee[style*="running"],
+.pill-marquee-track[style*="running"],
+.logo-marquee-track[style*="running"] {
+  will-change: transform;
 }
 
 /* Left scroll - 20s for smoother motion */
@@ -172,14 +180,14 @@ body {
   animation: marquee-scroll-right 15s linear infinite;
 }
 
-/* Faster on mobile for smoother feel */
+/* SLOWER on mobile = smoother (less work per frame on constrained devices) */
 @media (max-width: 768px) {
   .testimonial-marquee-left {
-    animation: marquee-scroll-left 10s linear infinite;
+    animation: marquee-scroll-left 18s linear infinite;
   }
 
   .testimonial-marquee-right {
-    animation: marquee-scroll-right 12s linear infinite;
+    animation: marquee-scroll-right 22s linear infinite;
   }
 }
 
@@ -209,6 +217,59 @@ body {
 
   a, button, [data-hover] {
     cursor: none;
+  }
+}
+
+/* ============================================
+   HERO ORB ANIMATIONS - Pure CSS (no Framer Motion)
+   ============================================ */
+
+@keyframes orb-float-1 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(50px, -30px, 0) scale(1.1); }
+}
+
+@keyframes orb-float-2 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-40px, 40px, 0) scale(0.9); }
+}
+
+@keyframes orb-float-3 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(0, 0, 0) scale(1.2); }
+}
+
+.hero-orb {
+  will-change: auto; /* Let browser decide */
+  backface-visibility: hidden;
+}
+
+.hero-orb-1 {
+  animation: orb-float-1 20s ease-in-out infinite;
+}
+
+.hero-orb-2 {
+  animation: orb-float-2 15s ease-in-out infinite;
+  animation-delay: -7s;
+}
+
+.hero-orb-3 {
+  animation: orb-float-3 10s ease-in-out infinite;
+  animation-delay: -3s;
+}
+
+/* Reduce/disable orb animations on low-end devices */
+@media (prefers-reduced-motion: reduce) {
+  .hero-orb {
+    animation: none !important;
+    opacity: 0.5;
+  }
+}
+
+/* Simpler orbs on mobile */
+@media (max-width: 640px) {
+  .hero-orb {
+    animation-duration: 30s; /* Much slower on mobile */
   }
 }
 
@@ -324,13 +385,13 @@ body {
     -webkit-mask-image: linear-gradient(to right, transparent, white 3%, white 97%, transparent);
   }
 
-  /* Faster animations on mobile feel smoother due to smaller viewport */
+  /* Even slower on small mobile - prioritize smoothness over speed */
   .testimonial-marquee-left {
-    animation-duration: 8s;
+    animation-duration: 24s;
   }
 
   .testimonial-marquee-right {
-    animation-duration: 10s;
+    animation-duration: 28s;
   }
 }
 
