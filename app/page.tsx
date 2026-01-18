@@ -15,6 +15,18 @@ import { CobeGlobe } from '@/components/eldoraui/cobe-globe'
 import { MorphingText } from '@/components/eldoraui/morphing-text'
 import { ShimmerButton } from '@/components/eldoraui/shimmer-button'
 
+// Brand Icons
+import {
+  SiStripe,
+  SiVercel,
+  SiLinear,
+  SiNotion,
+  SiFigma,
+  SiSlack,
+  SiDiscord,
+  SiGithub,
+} from '@icons-pack/react-simple-icons'
+
 // ============================================
 // PARALLAX WRAPPER
 // ============================================
@@ -479,8 +491,18 @@ function Hero() {
 // ============================================
 // LOGO MARQUEE - Pure CSS for smooth animation
 // ============================================
+const brandLogos = [
+  { name: 'Stripe', icon: SiStripe },
+  { name: 'Vercel', icon: SiVercel },
+  { name: 'Linear', icon: SiLinear },
+  { name: 'Notion', icon: SiNotion },
+  { name: 'Figma', icon: SiFigma },
+  { name: 'Slack', icon: SiSlack },
+  { name: 'Discord', icon: SiDiscord },
+  { name: 'GitHub', icon: SiGithub },
+]
+
 function LogoMarquee() {
-  const logos = ['Stripe', 'Vercel', 'Linear', 'Notion', 'Figma', 'Slack', 'Discord', 'GitHub']
   const { ref, isVisible } = useIsVisible()
 
   return (
@@ -502,13 +524,14 @@ function LogoMarquee() {
         <div
           className={`flex gap-16 whitespace-nowrap logo-marquee-left ${!isVisible ? 'marquee-paused' : ''}`}
         >
-          {[...logos, ...logos].map((logo, i) => (
-            <span
+          {[...brandLogos, ...brandLogos].map((logo, i) => (
+            <div
               key={i}
-              className="text-3xl font-semibold text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors duration-300 cursor-default select-none"
+              className="flex items-center gap-3 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors duration-300 cursor-default select-none"
             >
-              {logo}
-            </span>
+              <logo.icon className="w-6 h-6" />
+              <span className="text-2xl font-semibold">{logo.name}</span>
+            </div>
           ))}
         </div>
       </div>
@@ -1028,18 +1051,7 @@ function PillMarqueeContained() {
 // ============================================
 function LogoMarqueeAlt() {
   const { ref, isVisible } = useIsVisible()
-  const logos = [
-    { name: 'Vercel', icon: '▲' },
-    { name: 'Stripe', icon: '◈' },
-    { name: 'Linear', icon: '◇' },
-    { name: 'Notion', icon: '▣' },
-    { name: 'Figma', icon: '◉' },
-    { name: 'Slack', icon: '▤' },
-    { name: 'Discord', icon: '◎' },
-    { name: 'GitHub', icon: '◐' },
-  ]
-
-  const duplicated = [...logos, ...logos, ...logos]
+  const duplicated = [...brandLogos, ...brandLogos, ...brandLogos]
 
   return (
     <section ref={ref} className="py-24 border-y border-[var(--border)] overflow-hidden bg-[var(--bg-secondary)]/30">
@@ -1070,7 +1082,7 @@ function LogoMarqueeAlt() {
               key={i}
               className="flex items-center gap-3 text-[var(--text-muted)] hover:text-[var(--text-primary)] transition-colors cursor-default"
             >
-              <span className="text-2xl">{logo.icon}</span>
+              <logo.icon className="w-6 h-6" />
               <span className="text-2xl font-semibold">{logo.name}</span>
             </div>
           ))}
