@@ -1300,12 +1300,22 @@ function FAQShowcase() {
 // ============================================
 function HorizontalScrollShowcase() {
   const sectionRef = useRef<HTMLDivElement>(null)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end end']
   })
 
-  const x = useTransform(scrollYProgress, [0, 1], ['0%', '-75%'])
+  // More scroll distance on mobile to show all cards
+  const x = useTransform(scrollYProgress, [0, 1], ['0%', isMobile ? '-220%' : '-75%'])
 
   const cards = [
     { icon: '✨', title: 'Spotlight Cards', desc: 'Light follows your cursor creating depth and focus', gradient: 'from-cyan-500/20 to-blue-500/20' },
@@ -1315,9 +1325,13 @@ function HorizontalScrollShowcase() {
   ]
 
   return (
-    <section ref={sectionRef} className="relative bg-[var(--bg-secondary)]/50" style={{ height: '200vh' }}>
+    <section
+      ref={sectionRef}
+      className="relative bg-[var(--bg-secondary)]/50"
+      style={{ height: isMobile ? '300vh' : '200vh' }}
+    >
       <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 w-full mb-12">
+        <div className="max-w-7xl mx-auto px-6 w-full mb-8 sm:mb-12">
           <AnimatedSection>
             <span className="inline-block text-sm font-semibold text-[var(--accent-cyan)] uppercase tracking-wider mb-4">
               Horizontal Scroll
@@ -1325,14 +1339,14 @@ function HorizontalScrollShowcase() {
             <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-[var(--text-primary)] mb-4">
               Pin & Scroll Section
             </h2>
-            <p className="text-xl text-[var(--text-muted)] max-w-lg">
+            <p className="text-base sm:text-xl text-[var(--text-muted)] max-w-lg">
               The section pins while cards scroll horizontally - a signature Framer pattern
             </p>
           </AnimatedSection>
         </div>
 
         <motion.div
-          className="flex gap-6 pl-[10%] will-change-transform"
+          className="flex gap-4 sm:gap-6 pl-[5%] sm:pl-[10%] will-change-transform"
           style={{ x }}
         >
           {cards.map((card, i) => (

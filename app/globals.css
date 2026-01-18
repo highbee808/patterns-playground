@@ -183,11 +183,11 @@ body {
 /* SLOWER on mobile = smoother (less work per frame on constrained devices) */
 @media (max-width: 768px) {
   .testimonial-marquee-left {
-    animation: marquee-scroll-left 18s linear infinite;
+    animation: marquee-scroll-left 14s linear infinite;
   }
 
   .testimonial-marquee-right {
-    animation: marquee-scroll-right 22s linear infinite;
+    animation: marquee-scroll-right 16s linear infinite;
   }
 }
 
@@ -385,13 +385,13 @@ body {
     -webkit-mask-image: linear-gradient(to right, transparent, white 3%, white 97%, transparent);
   }
 
-  /* Even slower on small mobile - prioritize smoothness over speed */
+  /* Slightly slower on small mobile - balance smoothness and speed */
   .testimonial-marquee-left {
-    animation-duration: 24s;
+    animation-duration: 16s;
   }
 
   .testimonial-marquee-right {
-    animation-duration: 28s;
+    animation-duration: 18s;
   }
 }
 
