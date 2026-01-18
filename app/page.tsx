@@ -1673,7 +1673,7 @@ export default function Page() {
     <SmoothScrollProvider>
       <CustomCursor />
       <ThemeToggle />
-      <main className="bg-[var(--bg-primary)] text-[var(--text-primary)] antialiased cursor-none transition-colors duration-300">
+      <main className="bg-[var(--bg-primary)] text-[var(--text-primary)] antialiased cursor-none transition-colors duration-300 overflow-x-hidden">
         <ScrollProgress />
         <Hero />
         <LogoMarquee />

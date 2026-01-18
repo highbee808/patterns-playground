@@ -64,7 +64,7 @@ export default function EldoraPage() {
           cursor: auto !important;
         }
       `}</style>
-      <main className="min-h-screen bg-[var(--bg-primary)]">
+      <main className="min-h-screen bg-[var(--bg-primary)] overflow-x-hidden">
         <ThemeToggle />
 
         {/* Navigation */}
