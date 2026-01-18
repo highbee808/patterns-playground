@@ -441,3 +441,118 @@ body {
     transition: transform 0.1s ease;
   }
 }
+
+/* ============================================
+   ELDORA UI - SHIMMER ANIMATIONS
+   ============================================ */
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 4s linear infinite;
+}
+
+/* ============================================
+   LOGO MARQUEE - Pure CSS (smoother than JS)
+   ============================================ */
+
+@keyframes logo-scroll-left {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes logo-scroll-right {
+  0% { transform: translate3d(-50%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes logo-scroll-left-33 {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-33.33%, 0, 0); }
+}
+
+@keyframes logo-scroll-right-33 {
+  0% { transform: translate3d(-33.33%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+.logo-marquee-left {
+  animation: logo-scroll-left 30s linear infinite;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.logo-marquee-right {
+  animation: logo-scroll-right 30s linear infinite;
+  transform: translate3d(-50%, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Pill marquee uses -33.33% for triple duplication */
+.pill-marquee-left {
+  animation: logo-scroll-left-33 20s linear infinite;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.pill-marquee-right {
+  animation: logo-scroll-right-33 20s linear infinite;
+  transform: translate3d(-33.33%, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.pill-marquee-slow {
+  animation-duration: 30s;
+}
+
+.pill-marquee-fast {
+  animation-duration: 12s;
+}
+
+/* Pause animation when not visible (controlled via JS) */
+.marquee-paused {
+  animation-play-state: paused;
+}
+
+/* ============================================
+   LOGO TIMELINE - Horizontal scroll animation
+   ============================================ */
+
+@keyframes logo-timeline-move {
+  0% {
+    transform: translateX(-100%) translateY(-50%);
+  }
+  100% {
+    transform: translateX(calc(100cqw + 100%)) translateY(-50%);
+  }
+}
+
+.logo-timeline-item {
+  animation-name: logo-timeline-move;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}

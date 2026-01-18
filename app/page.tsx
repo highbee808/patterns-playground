@@ -3,11 +3,17 @@
 import { useRef, useEffect, useState } from 'react'
 import { motion, useScroll, useTransform, useSpring, useInView, MotionValue } from 'motion/react'
 import { Sparkles, Zap, ArrowRight, Code2, Palette, MousePointer2, Github, ExternalLink, Check, Crown, ChevronDown, Star, Calendar, MessageSquare, FileText, User, Mail, Phone, Shield } from 'lucide-react'
+import Link from 'next/link'
 import { SmoothScrollProvider } from '@/components/smooth-scroll'
 import { AnimatedCards } from '@/components/animated-cards'
 import { SpotlightCard, TiltCard } from '@/components/tilt-card'
 import { TestimonialMarquee } from '@/components/testimonial-marquee'
 import { ThemeToggle } from '@/components/theme-toggle'
+
+// Eldora UI Components
+import { CobeGlobe } from '@/components/eldoraui/cobe-globe'
+import { MorphingText } from '@/components/eldoraui/morphing-text'
+import { ShimmerButton } from '@/components/eldoraui/shimmer-button'
 
 // ============================================
 // PARALLAX WRAPPER
@@ -99,7 +105,7 @@ function CustomCursor() {
 }
 
 // ============================================
-// ANIMATED SECTION - Fade up on scroll (REPLAYS!)
+// ANIMATED SECTION - Fade up on scroll
 // ============================================
 function AnimatedSection({
   children,
@@ -111,8 +117,7 @@ function AnimatedSection({
   delay?: number
 }) {
   const ref = useRef(null)
-  // Remove once: true so it replays every time it enters view
-  const isInView = useInView(ref, { once: false, margin: '-100px', amount: 0.3 })
+  const isInView = useInView(ref, { once: true, margin: '-100px', amount: 0.3 })
 
   return (
     <motion.div
@@ -132,7 +137,7 @@ function AnimatedSection({
 }
 
 // ============================================
-// STAGGERED CHILDREN (REPLAYS!)
+// STAGGERED CHILDREN
 // ============================================
 function StaggerContainer({
   children,
@@ -144,8 +149,7 @@ function StaggerContainer({
   staggerDelay?: number
 }) {
   const ref = useRef(null)
-  // Remove once: true so stagger replays
-  const isInView = useInView(ref, { once: false, margin: '-50px', amount: 0.2 })
+  const isInView = useInView(ref, { once: true, margin: '-50px', amount: 0.2 })
 
   return (
     <motion.div
@@ -473,7 +477,7 @@ function Hero() {
 }
 
 // ============================================
-// LOGO MARQUEE
+// LOGO MARQUEE - Pure CSS for smooth animation
 // ============================================
 function LogoMarquee() {
   const logos = ['Stripe', 'Vercel', 'Linear', 'Notion', 'Figma', 'Slack', 'Discord', 'GitHub']
@@ -494,11 +498,9 @@ function LogoMarquee() {
           WebkitMaskImage: 'linear-gradient(to right, transparent, white 10%, white 90%, transparent)',
         }}
       >
-        <motion.div
-          animate={isVisible ? { x: ['0%', '-50%'] } : undefined}
-          transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
-          className="flex gap-16 whitespace-nowrap logo-marquee-track"
-          style={{ animationPlayState: isVisible ? 'running' : 'paused' }}
+        {/* Pure CSS animation - runs on compositor thread for 60fps */}
+        <div
+          className={`flex gap-16 whitespace-nowrap logo-marquee-left ${!isVisible ? 'marquee-paused' : ''}`}
         >
           {[...logos, ...logos].map((logo, i) => (
             <span
@@ -508,7 +510,7 @@ function LogoMarquee() {
               {logo}
             </span>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )
@@ -832,7 +834,7 @@ function TestimonialsContained() {
 }
 
 // ============================================
-// PILL/BADGE MARQUEE - Horizontal text tags
+// PILL/BADGE MARQUEE - Pure CSS for smooth animation
 // ============================================
 function PillMarquee({
   items,
@@ -845,7 +847,10 @@ function PillMarquee({
 }) {
   const { ref, isVisible } = useIsVisible()
   const duplicated = [...items, ...items, ...items]
-  const duration = speed === 'slow' ? 20 : speed === 'fast' ? 8 : 12
+
+  // Build CSS class based on direction and speed
+  const directionClass = direction === 'left' ? 'pill-marquee-left' : 'pill-marquee-right'
+  const speedClass = speed === 'slow' ? 'pill-marquee-slow' : speed === 'fast' ? 'pill-marquee-fast' : ''
 
   return (
     <div
@@ -856,11 +861,9 @@ function PillMarquee({
         WebkitMaskImage: 'linear-gradient(to right, transparent, white 10%, white 90%, transparent)',
       }}
     >
-      <motion.div
-        className="flex gap-4 whitespace-nowrap pill-marquee-track"
-        animate={isVisible ? { x: direction === 'left' ? ['0%', '-33.33%'] : ['-33.33%', '0%'] } : undefined}
-        transition={{ duration, repeat: Infinity, ease: 'linear' }}
-        style={{ animationPlayState: isVisible ? 'running' : 'paused' }}
+      {/* Pure CSS animation - runs on compositor thread for 60fps */}
+      <div
+        className={`flex gap-4 whitespace-nowrap ${directionClass} ${speedClass} ${!isVisible ? 'marquee-paused' : ''}`}
       >
         {duplicated.map((item, idx) => (
           <span
@@ -873,7 +876,7 @@ function PillMarquee({
             {item.text}
           </span>
         ))}
-      </motion.div>
+      </div>
     </div>
   )
 }
@@ -1021,7 +1024,7 @@ function PillMarqueeContained() {
 }
 
 // ============================================
-// SINGLE ROW LOGO MARQUEE - Alternative style
+// SINGLE ROW LOGO MARQUEE - Alternative style (Pure CSS)
 // ============================================
 function LogoMarqueeAlt() {
   const { ref, isVisible } = useIsVisible()
@@ -1058,11 +1061,9 @@ function LogoMarqueeAlt() {
           WebkitMaskImage: 'linear-gradient(to right, transparent, white 15%, white 85%, transparent)',
         }}
       >
-        <motion.div
-          className="flex gap-12 whitespace-nowrap logo-marquee-track"
-          animate={isVisible ? { x: ['0%', '-33.33%'] } : undefined}
-          transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
-          style={{ animationPlayState: isVisible ? 'running' : 'paused' }}
+        {/* Pure CSS animation - runs on compositor thread */}
+        <div
+          className={`flex gap-12 whitespace-nowrap pill-marquee-left pill-marquee-fast ${!isVisible ? 'marquee-paused' : ''}`}
         >
           {duplicated.map((logo, i) => (
             <div
@@ -1073,7 +1074,7 @@ function LogoMarqueeAlt() {
               <span className="text-2xl font-semibold">{logo.name}</span>
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   )
@@ -1666,6 +1667,30 @@ export default function Page() {
         <LogoMarquee />
         <Stats />
         <Features />
+
+        {/* Globe Section - Eldora UI */}
+        <section className="py-24 px-6">
+          <div className="max-w-6xl mx-auto">
+            <AnimatedSection className="text-center mb-12">
+              <span className="inline-block text-sm font-semibold text-[var(--accent-cyan)] uppercase tracking-wider mb-4">
+                Interactive Globe
+              </span>
+              <h2 className="text-3xl md:text-5xl font-bold text-[var(--text-primary)] mb-4">
+                Global{' '}
+                <MorphingText
+                  texts={['Reach', 'Impact', 'Scale', 'Vision']}
+                  className="text-[var(--accent-cyan)]"
+                  duration={2500}
+                />
+              </h2>
+              <p className="text-lg text-[var(--text-muted)] max-w-xl mx-auto">
+                A 3D interactive globe component. Drag to rotate.
+              </p>
+            </AnimatedSection>
+            <CobeGlobe className="mx-auto max-w-[500px]" />
+          </div>
+        </section>
+
         <PremiumCards />
         <HorizontalScrollShowcase />
         <TestimonialsFullWidth />
@@ -1681,6 +1706,18 @@ export default function Page() {
 
         <footer className="py-16 border-t border-[var(--border)]">
           <div className="max-w-6xl mx-auto px-6 text-center">
+            <motion.div
+              className="mb-6"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <Link href="/eldora">
+                <ShimmerButton className="text-sm">
+                  View More Components →
+                </ShimmerButton>
+              </Link>
+            </motion.div>
             <motion.p
               className="text-[var(--text-muted)] text-sm"
               initial={{ opacity: 0 }}
