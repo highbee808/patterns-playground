@@ -1310,12 +1310,16 @@ function FAQShowcase() {
 
 // ============================================
 // HORIZONTAL SCROLL SHOWCASE
+// Desktop: Scroll-hijacking with sticky positioning
+// Mobile: Native horizontal scroll with CSS snap (more reliable)
 // ============================================
 function HorizontalScrollShowcase() {
   const sectionRef = useRef<HTMLDivElement>(null)
   const [isMobile, setIsMobile] = useState(false)
+  const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
+    setIsClient(true)
     const checkMobile = () => setIsMobile(window.innerWidth < 768)
     checkMobile()
     window.addEventListener('resize', checkMobile)
@@ -1324,11 +1328,11 @@ function HorizontalScrollShowcase() {
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ['start start', 'end end']
+    offset: ['start start', 'end end'],
+    layoutEffect: false, // Fix for mobile scroll issues
   })
 
-  // More scroll distance on mobile to show all cards
-  const x = useTransform(scrollYProgress, [0, 1], ['0%', isMobile ? '-220%' : '-75%'])
+  const x = useTransform(scrollYProgress, [0, 1], ['0%', '-75%'])
 
   const cards = [
     { icon: '💡', title: 'Spotlight Cards', desc: 'Light follows your cursor creating depth and focus', gradient: 'from-cyan-500/20 to-blue-500/20' },
@@ -1337,11 +1341,72 @@ function HorizontalScrollShowcase() {
     { icon: '⚡', title: 'Scroll Triggers', desc: 'Elements animate as they enter the viewport', gradient: 'from-green-500/20 to-emerald-500/20' },
   ]
 
+  // Mobile: Use native horizontal scroll with CSS snap
+  if (isClient && isMobile) {
+    return (
+      <section className="py-16 sm:py-24 bg-[var(--bg-secondary)]/50">
+        <div className="max-w-7xl mx-auto px-6 w-full mb-8">
+          <AnimatedSection>
+            <span className="inline-block text-sm font-semibold text-[var(--accent-cyan)] uppercase tracking-wider mb-4">
+              Horizontal Scroll
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-4">
+              Pin & Scroll Section
+            </h2>
+            <p className="text-base text-[var(--text-muted)] max-w-lg">
+              Swipe to explore the cards
+            </p>
+          </AnimatedSection>
+        </div>
+
+        {/* Native horizontal scroll container */}
+        <div
+          className="flex gap-4 overflow-x-auto px-6 pb-4 snap-x snap-mandatory scrollbar-hide"
+          style={{
+            WebkitOverflowScrolling: 'touch',
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none',
+          }}
+        >
+          {cards.map((card, i) => (
+            <motion.div
+              key={i}
+              className="flex-shrink-0 w-[280px] snap-center"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+            >
+              <SpotlightCard className="h-full rounded-2xl bg-[var(--bg-card)] border border-[var(--border)]">
+                <div className="p-5 h-full">
+                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${card.gradient} flex items-center justify-center text-2xl mb-4`}>
+                    {card.icon}
+                  </div>
+                  <h3 className="text-lg font-bold text-[var(--text-primary)] mb-2">{card.title}</h3>
+                  <p className="text-[var(--text-secondary)] leading-relaxed text-sm">{card.desc}</p>
+                </div>
+              </SpotlightCard>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Swipe indicator */}
+        <div className="flex items-center justify-center gap-2 text-[var(--text-muted)] mt-4">
+          <motion.div animate={{ x: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
+            <ArrowRight className="w-4 h-4" />
+          </motion.div>
+          <span className="text-xs uppercase tracking-wider">Swipe to explore</span>
+        </div>
+      </section>
+    )
+  }
+
+  // Desktop: Scroll-hijacking horizontal scroll
   return (
     <section
       ref={sectionRef}
       className="relative bg-[var(--bg-secondary)]/50"
-      style={{ height: isMobile ? '300vh' : '200vh' }}
+      style={{ height: '200vh' }}
     >
       <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 w-full mb-8 sm:mb-12">
