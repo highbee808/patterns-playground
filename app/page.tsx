@@ -1329,7 +1329,6 @@ function HorizontalScrollShowcase() {
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end end'],
-    layoutEffect: false, // Fix for mobile scroll issues
   })
 
   const x = useTransform(scrollYProgress, [0, 1], ['0%', '-75%'])
