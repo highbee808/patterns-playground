@@ -472,7 +472,7 @@ function LogoMarquee() {
         <motion.div
           animate={{ x: ['0%', '-50%'] }}
           transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
-          className="flex gap-16 whitespace-nowrap"
+          className="flex gap-16 whitespace-nowrap logo-marquee-track"
         >
           {[...logos, ...logos].map((logo, i) => (
             <span
@@ -829,19 +829,19 @@ function PillMarquee({
       }}
     >
       <motion.div
-        className="flex gap-3 sm:gap-4 whitespace-nowrap pill-marquee-track"
+        className="flex gap-4 whitespace-nowrap pill-marquee-track"
         animate={{ x: direction === 'left' ? ['0%', '-33.33%'] : ['-33.33%', '0%'] }}
         transition={{ duration, repeat: Infinity, ease: 'linear' }}
       >
         {duplicated.map((item, idx) => (
           <span
             key={idx}
-            className={`inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-medium border transition-all hover:scale-105 touch-target ${
+            className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium border transition-all hover:scale-105 ${
               item.color || 'bg-[var(--bg-card)] border-[var(--border)] text-[var(--text-primary)] hover:bg-white/10'
             }`}
           >
-            <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-current opacity-60" />
-            <span className="whitespace-nowrap">{item.text}</span>
+            <span className="w-2 h-2 rounded-full bg-current opacity-60" />
+            {item.text}
           </span>
         ))}
       </motion.div>
@@ -1029,7 +1029,7 @@ function LogoMarqueeAlt() {
         }}
       >
         <motion.div
-          className="flex gap-12 whitespace-nowrap"
+          className="flex gap-12 whitespace-nowrap logo-marquee-track"
           animate={{ x: ['0%', '-33.33%'] }}
           transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
         >

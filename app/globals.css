@@ -140,12 +140,16 @@ body {
 }
 
 /* GPU-accelerated marquee track */
-.testimonial-marquee {
+.testimonial-marquee,
+.pill-marquee-track,
+.logo-marquee-track {
   will-change: transform;
   transform: translateZ(0);
   -webkit-transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
 }
 
 /* Left scroll - 20s for smoother motion */
